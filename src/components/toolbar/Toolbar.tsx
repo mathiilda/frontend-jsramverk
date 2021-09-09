@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Toolbar.scss";
 
 export function Toolbar() {
   const [dropdown, showDropdown] = useState(false);
 
-  useEffect(() => {
-    localStorage.clear();
-  });
+  // useEffect(() => {
+  //   localStorage.clear();
+  // });
 
   const logLocalStorage = () => {
     console.log(localStorage.getItem("text"));
