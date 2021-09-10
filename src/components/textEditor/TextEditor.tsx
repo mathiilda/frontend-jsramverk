@@ -14,11 +14,7 @@ export function TextEditor({ shouldFetch, setShouldFetch }: Props) {
   const [documents, setDocuments] = useState([]);
   const [title, setTitle] = useState("");
 
-  console.log(shouldFetch);
-
   useEffect(() => {
-    console.log("hej");
-
     const getDocuments = async () => {
       let allDocs = await getAll();
       setDocuments(allDocs);
@@ -32,11 +28,7 @@ export function TextEditor({ shouldFetch, setShouldFetch }: Props) {
       let allDocs = await getAll();
       setDocuments(allDocs);
     };
-
-    if (shouldFetch === true) {
-      getDocuments();
-      setShouldFetch(false);
-    }
+    getDocuments();
   }, [shouldFetch]);
 
   const getSpecificDocument = async (id: any) => {
@@ -50,6 +42,10 @@ export function TextEditor({ shouldFetch, setShouldFetch }: Props) {
       localStorage.setItem("text", editorRef.current.getContent());
     }
   };
+
+  if (shouldFetch === true) {
+    setShouldFetch(false);
+  }
 
   return (
     <div className="editor">

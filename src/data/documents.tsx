@@ -1,5 +1,5 @@
 export async function getAll() {
-  return await fetch("http://localhost:1337/docs")
+  return await fetch("https://jsramverk-mabw19.azurewebsites.net/docs")
     .then((data) => data.json())
     .then((data) => {
       return data.data;
@@ -11,7 +11,7 @@ export async function getAll() {
 }
 
 export async function getSpecific(id: any) {
-  return await fetch(`http://localhost:1337/docs/${id}`)
+  return await fetch(`https://jsramverk-mabw19.azurewebsites.net/docs/${id}`)
     .then((data) => data.json())
     .then((data) => {
       localStorage.setItem("id", data.data._id);
@@ -35,7 +35,7 @@ export async function update(id: any, title: string, text: string) {
 
   console.log(input);
 
-  return await fetch(`http://localhost:1337/docs/update`, {
+  return await fetch(`https://jsramverk-mabw19.azurewebsites.net/docs/update`, {
     method: "PUT",
     body: input,
     headers: {
@@ -55,7 +55,7 @@ export async function create() {
     text: "",
   });
 
-  return await fetch(`http://localhost:1337/docs/create`, {
+  return await fetch(`https://jsramverk-mabw19.azurewebsites.net/docs/create`, {
     method: "POST",
     body: input,
     headers: {

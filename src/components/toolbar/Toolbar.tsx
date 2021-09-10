@@ -14,8 +14,6 @@ export function Toolbar() {
     let title2: string | null = localStorage.getItem("title");
 
     if (text !== null && id !== null && title2 !== null) {
-      console.log(text, id, title2);
-
       update(id, title2, text);
       setShouldFetch(true);
     }
