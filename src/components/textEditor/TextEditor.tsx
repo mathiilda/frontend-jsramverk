@@ -1,9 +1,50 @@
-import React, { useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./TextEditor.scss";
-import { Editor } from "@tinymce/tinymce-react";
 
-export function TextEditor() {
+import { Editor } from "@tinymce/tinymce-react";
+import { getAll, getSpecific } from "../../data/documents";
+
+type Props = {
+  shouldFetch: boolean;
+  setShouldFetch: any;
+};
+
+export function TextEditor({ shouldFetch, setShouldFetch }: Props) {
   const editorRef: any = useRef(null);
+  const [documents, setDocuments] = useState([]);
+  const [title, setTitle] = useState("");
+
+  console.log(shouldFetch);
+
+  useEffect(() => {
+    console.log("hej");
+
+    const getDocuments = async () => {
+      let allDocs = await getAll();
+      setDocuments(allDocs);
+    };
+
+    getDocuments();
+  }, []);
+
+  useEffect(() => {
+    const getDocuments = async () => {
+      let allDocs = await getAll();
+      setDocuments(allDocs);
+    };
+
+    if (shouldFetch === true) {
+      getDocuments();
+      setShouldFetch(false);
+    }
+  }, [shouldFetch]);
+
+  const getSpecificDocument = async (id: any) => {
+    let specificDocument = await getSpecific(id);
+    editorRef.current.setContent(specificDocument.text);
+    setTitle(specificDocument.title);
+  };
+
   const saveToLocalStorage = () => {
     if (editorRef.current) {
       localStorage.setItem("text", editorRef.current.getContent());
@@ -12,12 +53,34 @@ export function TextEditor() {
 
   return (
     <div className="editor">
+      <div className="sidebar">
+        <input
+          type="text"
+          value={title}
+          placeholder="Your title here"
+          onChange={(event) => (
+            setTitle(event.target.value),
+            localStorage.setItem("title", event?.target.value)
+          )}
+        />
+        <h4>Your documents:</h4>
+        {documents?.map((d) => {
+          return (
+            <p key={d["name"]} onClick={() => getSpecificDocument(d["_id"])}>
+              📃 {d["title"]}
+            </p>
+          );
+        })}
+      </div>
+
       <Editor
         onInit={(evt, editor) => (editorRef.current = editor)}
         init={{
           height: 500,
-          width: 1100,
+          width: 1500,
           menubar: false,
+          placeholder:
+            "Create a new document by choosing 'New document' in the 'file'-dropdown.",
           plugins: [
             "advlist autolink lists link image charmap print preview anchor",
             "searchreplace visualblocks code fullscreen",

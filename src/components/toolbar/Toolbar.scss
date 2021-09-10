@@ -11,7 +11,12 @@ $accent-color: rgb(48, 178, 208);
 
   header {
     display: flex;
+    justify-content: space-between;
     margin: 0;
+  }
+
+  .inner-header {
+    display: flex;
   }
 
   p {
@@ -33,6 +38,22 @@ $accent-color: rgb(48, 178, 208);
 
   .not-visible {
     display: none;
+  }
+
+  input[type="text"] {
+    height: 90%;
+    padding: 0;
+    background: $bg-color;
+    border: none;
+    border-bottom: 1px solid $accent-color;
+    color: white;
+  }
+
+  form {
+    button {
+      background-color: $accent-color;
+      border: none;
+    }
   }
 
   .dropdown {

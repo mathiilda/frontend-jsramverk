@@ -1,6 +1,28 @@
 .editor {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1em;
+  flex-direction: row;
+
+  .sidebar {
+    background-color: hsl(0, 0%, 15%);
+    height: calc(100vh - 42px);
+    border-top: 1px solid #30b2d0;
+    width: 15%;
+
+    p,
+    h4 {
+      margin: 0.2em 1em;
+      color: white;
+    }
+
+    p {
+      margin-bottom: 0.75em;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    h4 {
+      padding: 1em 0 0.5em;
+    }
+  }
 }

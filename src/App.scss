@@ -5,3 +5,23 @@ body,
   padding: 0;
   background-color: #ffffff;
 }
+
+.App {
+  .main {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .main-sidebar {
+    width: 15%;
+    border-left: 1px solid black;
+  }
+
+  .main-texteditor {
+    width: 85%;
+    justify-content: right;
+  }
+}
