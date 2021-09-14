@@ -60,13 +60,15 @@ export function TextEditor({ shouldFetch, setShouldFetch }: Props) {
           )}
         />
         <h4>Your documents:</h4>
-        {documents?.map((d) => {
-          return (
-            <p key={d["name"]} onClick={() => getSpecificDocument(d["_id"])}>
-              📃 {d["title"]}
-            </p>
-          );
-        })}
+        <div id="taylor">
+          {documents?.map((d) => {
+            return (
+              <p key={d["name"]} onClick={() => getSpecificDocument(d["_id"])}>
+                📃 {d["title"]}
+              </p>
+            );
+          })}
+        </div>
       </div>
 
       <Editor

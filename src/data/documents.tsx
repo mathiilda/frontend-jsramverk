@@ -33,8 +33,6 @@ export async function update(id: any, title: string, text: string) {
     text: text,
   });
 
-  console.log(input);
-
   return await fetch(`https://jsramverk-mabw19.azurewebsites.net/docs/update`, {
     method: "PUT",
     body: input,

@@ -1,2 +1,4 @@
 node_modules
 build
+/src/components/textEditor/TextEditor2.test.js
+/src/components/toolbar/Toolbar.test.js
