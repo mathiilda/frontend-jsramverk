@@ -60,7 +60,7 @@ export function TextEditor({ shouldFetch, setShouldFetch }: Props) {
           )}
         />
         <h4>Your documents:</h4>
-        <div id="taylor">
+        <div>
           {documents?.map((d) => {
             return (
               <p key={d["name"]} onClick={() => getSpecificDocument(d["_id"])}>

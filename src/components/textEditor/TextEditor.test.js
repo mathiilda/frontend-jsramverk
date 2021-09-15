@@ -1,7 +1,7 @@
 import React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
-import {TextEditor} from "./TextEditor";
+import { TextEditor } from "./TextEditor";
 
 let container = null;
 beforeEach(() => {

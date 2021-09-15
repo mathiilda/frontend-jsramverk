@@ -50,11 +50,16 @@ export function Toolbar() {
           <div
             onClick={() => showPopup(!popup)}
             className={popup ? "popup" : "popup not-visible"}
+            data-testid="popupButton"
           >
-            <p>
-              A new document was created! Select the new document in the list to
-              the left. Click on this message to close it.
-            </p>
+            {popup ? (
+              <p>
+                A new document was created! Select the new document in the list
+                to the left. Click on this message to close it.
+              </p>
+            ) : (
+              ""
+            )}
           </div>
         </header>
       </div>
