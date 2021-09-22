@@ -5,6 +5,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { getAll, getSpecific } from "../../data/documents";
 import socketIOClient from "socket.io-client";
 
+// const ENDPOINT = "http://127.0.0.1:1337";
 const ENDPOINT = "https://jsramverk-mabw19.azurewebsites.net/";
 const socket = socketIOClient(ENDPOINT);
 
@@ -27,6 +28,7 @@ export function TextEditor({ shouldFetch, setShouldFetch }: Props) {
     getDocuments();
     socket.on("doc", (data) => {
       editorRef.current.setContent(data.html);
+      setTitle(data.title);
     });
   }, []);
 
@@ -36,9 +38,7 @@ export function TextEditor({ shouldFetch, setShouldFetch }: Props) {
       setDocuments(allDocs);
     };
 
-    if (shouldFetch) {
-      getDocuments();
-    }
+    getDocuments();
   }, [shouldFetch]);
 
   const getSpecificDocument = async (id: any) => {
@@ -60,6 +60,7 @@ export function TextEditor({ shouldFetch, setShouldFetch }: Props) {
     socket.emit("doc", {
       _id: localStorage.getItem("id"),
       html: editorRef.current.getContent(),
+      title: title,
     });
   };
 
@@ -74,6 +75,9 @@ export function TextEditor({ shouldFetch, setShouldFetch }: Props) {
           type="text"
           value={title}
           placeholder="Your title here"
+          onKeyDown={(event) => {
+            updateSocket(event);
+          }}
           onChange={(event) => (
             setTitle(event.target.value),
             localStorage.setItem("title", event?.target.value)
