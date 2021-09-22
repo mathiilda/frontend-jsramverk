@@ -75,7 +75,7 @@ export function TextEditor({ shouldFetch, setShouldFetch }: Props) {
           type="text"
           value={title}
           placeholder="Your title here"
-          onKeyDown={(event) => {
+          onKeyUp={(event) => {
             updateSocket(event);
           }}
           onChange={(event) => (
@@ -117,7 +117,7 @@ export function TextEditor({ shouldFetch, setShouldFetch }: Props) {
           content_style:
             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         }}
-        onKeyDown={(event) => {
+        onKeyUp={(event) => {
           updateSocket(event);
         }}
         onEditorChange={() => {
