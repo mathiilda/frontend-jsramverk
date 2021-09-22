@@ -3,6 +3,10 @@ import "./TextEditor.scss";
 
 import { Editor } from "@tinymce/tinymce-react";
 import { getAll, getSpecific } from "../../data/documents";
+import socketIOClient from "socket.io-client";
+
+const ENDPOINT = "https://jsramverk-mabw19.azurewebsites.net/";
+const socket = socketIOClient(ENDPOINT);
 
 type Props = {
   shouldFetch: boolean;
@@ -21,6 +25,9 @@ export function TextEditor({ shouldFetch, setShouldFetch }: Props) {
     };
 
     getDocuments();
+    socket.on("doc", (data) => {
+      editorRef.current.setContent(data.html);
+    });
   }, []);
 
   useEffect(() => {
@@ -28,19 +35,32 @@ export function TextEditor({ shouldFetch, setShouldFetch }: Props) {
       let allDocs = await getAll();
       setDocuments(allDocs);
     };
-    getDocuments();
+
+    if (shouldFetch) {
+      getDocuments();
+    }
   }, [shouldFetch]);
 
   const getSpecificDocument = async (id: any) => {
     let specificDocument = await getSpecific(id);
+
+    socket.emit("create", id);
     editorRef.current.setContent(specificDocument.text);
     setTitle(specificDocument.title);
   };
 
   const saveToLocalStorage = () => {
-    if (editorRef.current) {
-      localStorage.setItem("text", editorRef.current.getContent());
+    let text = editorRef.current;
+    if (text) {
+      localStorage.setItem("text", text.getContent());
     }
+  };
+
+  const updateSocket = (event: any) => {
+    socket.emit("doc", {
+      _id: localStorage.getItem("id"),
+      html: editorRef.current.getContent(),
+    });
   };
 
   if (shouldFetch === true) {
@@ -73,6 +93,7 @@ export function TextEditor({ shouldFetch, setShouldFetch }: Props) {
 
       <Editor
         onInit={(evt, editor) => (editorRef.current = editor)}
+        id="textarea"
         init={{
           height: 500,
           width: 1500,
@@ -92,7 +113,12 @@ export function TextEditor({ shouldFetch, setShouldFetch }: Props) {
           content_style:
             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         }}
-        onEditorChange={() => saveToLocalStorage()}
+        onKeyDown={(event) => {
+          updateSocket(event);
+        }}
+        onEditorChange={() => {
+          saveToLocalStorage();
+        }}
       />
     </div>
   );
