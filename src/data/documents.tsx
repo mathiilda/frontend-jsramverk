@@ -1,9 +1,12 @@
 export async function getAll(userId: string, token: string) {
-  return await fetch(`http://localhost:1999/docs/${userId}`, {
-    headers: {
-      "x-access-token": token,
-    },
-  })
+  return await fetch(
+    `https://jsramverk-mabw19.azurewebsites.net/docs/${userId}`,
+    {
+      headers: {
+        "x-access-token": token,
+      },
+    }
+  )
     .then((data) => data.json())
     .then((data) => {
       return data.data;
@@ -19,14 +22,17 @@ export async function getSpecific(id: any, userId: string, token: string) {
     id: id,
   });
 
-  return await fetch(`http://localhost:1999/docs/getSpecific`, {
-    method: "POST",
-    body: input,
-    headers: {
-      "content-type": "application/json",
-      "x-access-token": token,
-    },
-  })
+  return await fetch(
+    `https://jsramverk-mabw19.azurewebsites.net/docs/getSpecific`,
+    {
+      method: "POST",
+      body: input,
+      headers: {
+        "content-type": "application/json",
+        "x-access-token": token,
+      },
+    }
+  )
     .then((data) => data.json())
     .then(function (data) {
       localStorage.setItem("id", data.data._id);
@@ -55,7 +61,7 @@ export async function update(
     userId: userId,
   });
 
-  return await fetch(`http://localhost:1999/docs/update`, {
+  return await fetch(`https://jsramverk-mabw19.azurewebsites.net/docs/update`, {
     method: "PUT",
     body: input,
     headers: {
@@ -76,14 +82,17 @@ export async function invite(id: any, username: string, token: string) {
     username: username,
   });
 
-  return await fetch(`http://localhost:1999/docs/addUser`, {
-    method: "PUT",
-    body: input,
-    headers: {
-      "content-type": "application/json",
-      "x-access-token": token,
-    },
-  })
+  return await fetch(
+    `https://jsramverk-mabw19.azurewebsites.net/docs/addUser`,
+    {
+      method: "PUT",
+      body: input,
+      headers: {
+        "content-type": "application/json",
+        "x-access-token": token,
+      },
+    }
+  )
     .then((data) => data.json())
     .then(function (data) {
       return data.data;
@@ -101,7 +110,7 @@ export async function create(userId: string, token: string) {
     userId: userId,
   });
 
-  return await fetch(`http://localhost:1999/docs/create`, {
+  return await fetch(`https://jsramverk-mabw19.azurewebsites.net/docs/create`, {
     method: "POST",
     body: input,
     headers: {

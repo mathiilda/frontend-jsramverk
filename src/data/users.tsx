@@ -4,13 +4,16 @@ export async function create(username: string, password: string) {
     password: password,
   });
 
-  return await fetch(`http://localhost:1999/users/create`, {
-    method: "POST",
-    body: input,
-    headers: {
-      "content-type": "application/json",
-    },
-  })
+  return await fetch(
+    `https://jsramverk-mabw19.azurewebsites.net/users/create`,
+    {
+      method: "POST",
+      body: input,
+      headers: {
+        "content-type": "application/json",
+      },
+    }
+  )
     .then((data) => data.json())
     .then(function (data) {
       localStorage.setItem("userId", data.id);
@@ -27,13 +30,16 @@ export async function getSpecific(username: string) {
     username: username,
   });
 
-  return await fetch(`http://localhost:1999/users/getSpecific`, {
-    method: "POST",
-    body: input,
-    headers: {
-      "content-type": "application/json",
-    },
-  })
+  return await fetch(
+    `https://jsramverk-mabw19.azurewebsites.net/users/getSpecific`,
+    {
+      method: "POST",
+      body: input,
+      headers: {
+        "content-type": "application/json",
+      },
+    }
+  )
     .then((data) => data.json())
     .then(function (data) {
       return data.data;
@@ -50,7 +56,7 @@ export async function login(username: string, password: string) {
     password: password,
   });
 
-  return await fetch(`http://localhost:1999/users/login`, {
+  return await fetch(`https://jsramverk-mabw19.azurewebsites.net/users/login`, {
     method: "POST",
     body: input,
     headers: {

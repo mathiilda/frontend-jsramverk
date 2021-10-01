@@ -7,8 +7,8 @@ import { getAll, getSpecific } from "../../data/documents";
 import socketIOClient from "socket.io-client";
 
 // const ENDPOINT = "http://127.0.0.1:1337";
-const ENDPOINT = "http://127.0.0.1:1999";
-// const ENDPOINT = "https://jsramverk-mabw19.azurewebsites.net/";
+// const ENDPOINT = "http://127.0.0.1:1999";
+const ENDPOINT = "https://jsramverk-mabw19.azurewebsites.net/";
 const socket = socketIOClient(ENDPOINT);
 
 type Props = {
