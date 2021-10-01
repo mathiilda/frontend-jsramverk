@@ -1,5 +1,9 @@
-export async function getAll() {
-  return await fetch("https://jsramverk-mabw19.azurewebsites.net/docs")
+export async function getAll(userId: string, token: string) {
+  return await fetch(`http://localhost:1999/docs/${userId}`, {
+    headers: {
+      "x-access-token": token,
+    },
+  })
     .then((data) => data.json())
     .then((data) => {
       return data.data;
@@ -10,10 +14,21 @@ export async function getAll() {
     });
 }
 
-export async function getSpecific(id: any) {
-  return await fetch(`https://jsramverk-mabw19.azurewebsites.net/docs/${id}`)
+export async function getSpecific(id: any, userId: string, token: string) {
+  let input = JSON.stringify({
+    id: id,
+  });
+
+  return await fetch(`http://localhost:1999/docs/getSpecific`, {
+    method: "POST",
+    body: input,
+    headers: {
+      "content-type": "application/json",
+      "x-access-token": token,
+    },
+  })
     .then((data) => data.json())
-    .then((data) => {
+    .then(function (data) {
       localStorage.setItem("id", data.data._id);
       localStorage.setItem("text", data.data.text);
       localStorage.setItem("title", data.data.title);
@@ -26,18 +41,26 @@ export async function getSpecific(id: any) {
     });
 }
 
-export async function update(id: any, title: string, text: string) {
+export async function update(
+  id: any,
+  title: string,
+  text: string,
+  userId: string,
+  token: string
+) {
   let input = JSON.stringify({
     id: id,
     title: title,
     text: text,
+    userId: userId,
   });
 
-  return await fetch(`https://jsramverk-mabw19.azurewebsites.net/docs/update`, {
+  return await fetch(`http://localhost:1999/docs/update`, {
     method: "PUT",
     body: input,
     headers: {
       "content-type": "application/json",
+      "x-access-token": token,
     },
   })
     .then((data) => data.json())
@@ -47,17 +70,43 @@ export async function update(id: any, title: string, text: string) {
     });
 }
 
-export async function create() {
+export async function invite(id: any, username: string, token: string) {
+  let input = JSON.stringify({
+    id: id,
+    username: username,
+  });
+
+  return await fetch(`http://localhost:1999/docs/addUser`, {
+    method: "PUT",
+    body: input,
+    headers: {
+      "content-type": "application/json",
+      "x-access-token": token,
+    },
+  })
+    .then((data) => data.json())
+    .then(function (data) {
+      return data.data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return "";
+    });
+}
+
+export async function create(userId: string, token: string) {
   let input = JSON.stringify({
     title: "New document",
     text: "",
+    userId: userId,
   });
 
-  return await fetch(`https://jsramverk-mabw19.azurewebsites.net/docs/create`, {
+  return await fetch(`http://localhost:1999/docs/create`, {
     method: "POST",
     body: input,
     headers: {
       "content-type": "application/json",
+      "x-access-token": token,
     },
   })
     .then((data) => data.json())

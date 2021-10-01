@@ -1,28 +1,31 @@
+.sidebar {
+  height: calc(100vh - 64px);
+  overflow: scroll;
+}
+
 .editor {
-  display: flex;
-  flex-direction: row;
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
-  .sidebar {
-    background-color: hsl(0, 0%, 15%);
-    height: calc(100vh - 42px);
-    border-top: 1px solid #30b2d0;
-    width: 15%;
+::-webkit-scrollbar {
+  width: 10px;
+  height: 100%;
+}
 
-    p,
-    h4 {
-      margin: 0.2em 1em;
-      color: white;
-    }
+/* Track */
+::-webkit-scrollbar-track {
+  background: #374151;
+}
 
-    p {
-      margin-bottom: 0.75em;
-      &:hover {
-        cursor: pointer;
-      }
-    }
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #1f2937;
+}
 
-    h4 {
-      padding: 1em 0 0.5em;
-    }
-  }
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #242f3d;
 }
