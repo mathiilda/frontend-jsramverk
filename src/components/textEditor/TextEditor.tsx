@@ -116,7 +116,6 @@ export function TextEditor({
                     onClick={() => getSpecificDocument(d["_id"])}
                   >
                     {/* 📃 */}
-                    {console.log(d["_id"])}
                     {d["title"]}
                   </p>
                   <p title="Share">🔗</p>

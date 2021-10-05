@@ -56,7 +56,6 @@ export function Login({ callBack }: Props) {
     }
 
     let specific = await getSpecific(username);
-    console.log(specific[0]._id);
     if (specific.length !== 0) {
       let res = await login(username, password);
 

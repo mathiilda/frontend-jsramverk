@@ -1,14 +1,26 @@
 export async function getAll(userId: string, token: string) {
-  return await fetch(
-    `https://jsramverk-mabw19.azurewebsites.net/docs/${userId}`,
-    {
-      headers: {
-        "x-access-token": token,
-      },
-    }
-  )
+  var query = `query Docs($userId: String) {
+    docs(userId: $userId)
+  }`;
+
+  return await fetch(`https://jsramverk-mabw19.azurewebsites.net/graphql`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "x-access-token": token,
+    },
+    body: JSON.stringify({ query, variables: { userId } }),
+  })
     .then((data) => data.json())
     .then((data) => {
+      if (data.errors) {
+        return undefined;
+      }
+      if (data.data.docs) {
+        return JSON.parse(data.data.docs);
+      }
+
       return data.data;
     })
     .catch((error) => {
@@ -16,6 +28,27 @@ export async function getAll(userId: string, token: string) {
       return "";
     });
 }
+
+// export async function getAll(userId: string, token: string) {
+//   console.log(userId);
+
+//   return await fetch(
+//     `https://jsramverk-mabw19.azurewebsites.net/docs/${userId}`,
+//     {
+//       headers: {
+//         "x-access-token": token,
+//       },
+//     }
+//   )
+//     .then((data) => data.json())
+//     .then((data) => {
+//       return data.data;
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//       return "";
+//     });
+// }
 
 export async function getSpecific(id: any, userId: string, token: string) {
   let input = JSON.stringify({
