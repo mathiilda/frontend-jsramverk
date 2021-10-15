@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { create, getSpecific, login } from "../../data/users";
-// import { getAll, getSpecific } from "../../data/users";
+import { invite } from "../../data/documents";
 
 type Props = {
   callBack: any;
@@ -12,6 +12,14 @@ export function Login({ callBack }: Props) {
   const [signInUp, setSignInUp] = useState(true);
   const [errorUser, setErrorUser] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
+
+  const checkParams = async (token: string) => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("id") !== null) {
+      await invite(params.get("id"), username, token);
+    }
+  };
 
   const handleErrorMessages = () => {
     let ifReturn = false;
@@ -39,10 +47,11 @@ export function Login({ callBack }: Props) {
     }
 
     let specific = await getSpecific(username);
-    console.log(specific);
 
     if (specific.length == 0) {
       let res = await create(username, password);
+
+      await checkParams(res.token);
       callBack(res.token, res.id);
     } else {
       setErrorUser("The username is already taken.");
@@ -58,8 +67,8 @@ export function Login({ callBack }: Props) {
     let specific = await getSpecific(username);
     if (specific.length !== 0) {
       let res = await login(username, password);
-
       if (res) {
+        await checkParams(res.token);
         callBack(res.token, specific[0]._id);
       } else {
         setErrorUser("");

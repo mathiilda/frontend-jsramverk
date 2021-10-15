@@ -1,3 +1,5 @@
+var FileSaver = require("file-saver");
+
 export async function getAll(userId: string, token: string) {
   var query = `query Docs($userId: String) {
     docs(userId: $userId)
@@ -28,27 +30,6 @@ export async function getAll(userId: string, token: string) {
       return "";
     });
 }
-
-// export async function getAll(userId: string, token: string) {
-//   console.log(userId);
-
-//   return await fetch(
-//     `https://jsramverk-mabw19.azurewebsites.net/docs/${userId}`,
-//     {
-//       headers: {
-//         "x-access-token": token,
-//       },
-//     }
-//   )
-//     .then((data) => data.json())
-//     .then((data) => {
-//       return data.data;
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//       return "";
-//     });
-// }
 
 export async function getSpecific(id: any, userId: string, token: string) {
   let input = JSON.stringify({
@@ -136,6 +117,41 @@ export async function invite(id: any, username: string, token: string) {
     });
 }
 
+export async function sendMail(
+  mail: string,
+  documentId: string,
+  token: string
+) {
+  // let input = JSON.stringify({
+  //   recipient: mail,
+  //   documentId: documentId,
+  // });
+
+  return await fetch(
+    `https://jsramverk-mabw19.azurewebsites.net/mail/send/${
+      mail + "&" + documentId
+    }`,
+    {
+      method: "GET",
+      // body: input,
+      // headers: {
+      //   "content-type": "application/json",
+      //   "x-access-token": token,
+      // },
+    }
+  );
+  // .then(function (data) {
+  //   console.log("nu skickar jag");
+
+  //   console.log(data);
+  //   return "";
+  // })
+  // .catch((error) => {
+  //   console.log(error);
+  //   return "";
+  // });
+}
+
 export async function create(userId: string, token: string) {
   let input = JSON.stringify({
     title: "New document",
@@ -159,4 +175,29 @@ export async function create(userId: string, token: string) {
       console.log(error);
       return "";
     });
+}
+
+export async function createPDF(text: string, title: string, token: string) {
+  let input = JSON.stringify({
+    title: title,
+    text: text,
+  });
+
+  await fetch("https://jsramverk-mabw19.azurewebsites.net/docs/createPdf", {
+    method: "POST",
+    body: input,
+    headers: {
+      "content-type": "application/json",
+      "x-access-token": token,
+      "Access-Control-Allow-Origin": "https://www.student.bth.se",
+    },
+  }).then((res) => {
+    return res
+      .arrayBuffer()
+      .then((res) => {
+        const newBlob = new Blob([res], { type: "application/pdf" });
+        FileSaver.saveAs(newBlob, title + ".pdf");
+      })
+      .catch((e) => alert(e));
+  });
 }
