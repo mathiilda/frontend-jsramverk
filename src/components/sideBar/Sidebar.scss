@@ -3,29 +3,26 @@
   overflow: scroll;
 }
 
-.editor {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 ::-webkit-scrollbar {
   width: 10px;
   height: 100%;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   background: #374151;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #1f2937;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #242f3d;
 }
+
+// .editor {
+//   position: absolute;
+//   top: 40%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+// }

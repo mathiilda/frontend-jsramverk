@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import "./Toolbar.scss";
-import { TextEditor } from "../textEditor/TextEditor";
-import { CodeEditor } from "../codeEditor/CodeEditor";
-import { CreatePDF } from "../popups/CreatePDF";
+import { Sidebar } from "../sideBar/SideBar";
 import {
   update,
   create,
-  invite,
   createPDF,
   sendMail,
+  executeCode,
 } from "../../data/documents";
 
 export function Toolbar() {
@@ -19,21 +16,33 @@ export function Toolbar() {
   const [token, setToken] = useState("");
   const [codeText, setCodeText] = useState(false);
 
-  const updateDoc = () => {
-    let text: string | null = localStorage.getItem("text");
-    let id: string | null = localStorage.getItem("id");
-    let title2: string | null = localStorage.getItem("title");
-
-    if (text !== null && id !== null && title2 !== null) {
-      update(id, title2, text, userId, token);
-      setShouldFetch(true);
-    }
+  const callBack = (uId: string, t: string) => {
+    setUserId(uId);
+    setToken(t);
   };
 
-  const newDoc = () => {
-    create(userId, token);
-    showPopup(!popup);
+  const changeEditor = () => {
+    setCodeText(!codeText);
     setShouldFetch(true);
+  };
+
+  const createPdf = () => {
+    // updateDoc();
+    // let id: string | null = localStorage.getItem("id");
+    // let title: string | null = localStorage.getItem("title");
+
+    // if (id !== null && title !== null) {
+    //   createPDF(id, title, token);
+    //   // alert(
+    //   //   "Your pdf is now downloading. Your document have been automatically saved."
+    //   // );
+    // }
+    let text: string | null = localStorage.getItem("text");
+    let title: string | null = localStorage.getItem("title");
+
+    if (text !== null && title !== null) {
+      createPDF(text, title, token);
+    }
   };
 
   const inviteUser = () => {
@@ -47,23 +56,29 @@ export function Toolbar() {
     }
   };
 
-  const createPdf = () => {
-    let text: string | null = localStorage.getItem("text");
-    let title: string | null = localStorage.getItem("title");
-
-    if (text !== null && title !== null) {
-      createPDF(text, title, token);
-    }
-  };
-
-  const changeEditor = () => {
-    setCodeText(!codeText);
+  const newDoc = () => {
+    create(userId, token, codeText);
+    showPopup(!popup);
     setShouldFetch(true);
   };
 
-  const callBack = (uId: string, t: string) => {
-    setUserId(uId);
-    setToken(t);
+  const runCode = async () => {
+    let text: string | null = localStorage.getItem("text");
+
+    if (text !== null) {
+      await executeCode(text);
+    }
+  };
+
+  const updateDoc = () => {
+    let text: string | null = localStorage.getItem("text");
+    let id: string | null = localStorage.getItem("id");
+    let title2: string | null = localStorage.getItem("title");
+
+    if (text !== null && id !== null && title2 !== null) {
+      update(id, title2, text, userId, token);
+      setShouldFetch(true);
+    }
   };
 
   if (userId !== "id") {
@@ -106,19 +121,28 @@ export function Toolbar() {
                 {codeText ? "Text editor" : "Code editor"}
               </p>
             </button>
-            <button
-              className="rounded-lg p-1 pl-3 pr-3 bg-purple-600 shadow ml-6"
-              onClick={() => createPdf()}
-            >
-              <p className="text-gray-100">Create pdf</p>
-            </button>
+            {codeText ? (
+              <button
+                className="rounded-lg p-1 pl-3 pr-3 bg-blue-500 shadow ml-6"
+                onClick={() => runCode()}
+              >
+                <p className="text-gray-100">Run code</p>
+              </button>
+            ) : (
+              <button
+                className="rounded-lg p-1 pl-3 pr-3 bg-purple-600 shadow ml-6"
+                onClick={() => createPdf()}
+              >
+                <p className="text-gray-100">Create pdf</p>
+              </button>
+            )}
           </div>
         </div>
-        <TextEditor
+        <Sidebar
           shouldFetch={shouldFetch}
           setShouldFetch={setShouldFetch}
           callBackToolbar={callBack}
-          showEditor={true}
+          editor={codeText}
         />
       </div>
     );
@@ -128,11 +152,11 @@ export function Toolbar() {
         <div className="flex flex-row justify-between bg-gray-100 text-gray-900 p-4 shadow">
           <div className="ml-auto mr-auto text-xl">JSEditor</div>
         </div>
-        <TextEditor
+        <Sidebar
           shouldFetch={shouldFetch}
           setShouldFetch={setShouldFetch}
           callBackToolbar={callBack}
-          showEditor={false}
+          editor={codeText}
         />
       </div>
     );

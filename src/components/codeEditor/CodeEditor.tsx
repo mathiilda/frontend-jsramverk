@@ -1,19 +1,28 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import Editor from "@monaco-editor/react";
 
-export function CodeEditor() {
-  const editorRef = useRef(null);
+type Props = {
+  forwardedRef: any;
+};
 
-  function handleEditorDidMount(editor: any, monaco: any) {
-    editorRef.current = editor;
-  }
+export function CodeEditor({ forwardedRef }: Props) {
+  const saveToLocalStorage = () => {
+    let text = forwardedRef.current;
+    if (text) {
+      localStorage.setItem("text", text.getValue());
+    }
+  };
 
   return (
-    <Editor
-      height="90vh"
-      defaultLanguage="javascript"
-      defaultValue="Write your code here"
-      onMount={handleEditorDidMount}
-    />
+    <div className="editor shadow">
+      <Editor
+        height="500px"
+        width="750px"
+        defaultLanguage="javascript"
+        defaultValue="Write your code here"
+        onMount={(editor, monaco) => (forwardedRef.current = editor)}
+        onChange={() => saveToLocalStorage()}
+      />
+    </div>
   );
 }
