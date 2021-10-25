@@ -4,7 +4,7 @@ export async function create(username: string, password: string) {
     password: password,
   });
 
-  return await fetch(`http://localhost:1337/users/create`, {
+  return await fetch(`http://localhost:1999/users/create`, {
     method: "POST",
     body: input,
     headers: {
@@ -27,7 +27,7 @@ export async function getSpecific(username: string) {
     username: username,
   });
 
-  return await fetch(`http://localhost:1337/users/getSpecific`, {
+  return await fetch(`http://localhost:1999/users/getSpecific`, {
     method: "POST",
     body: input,
     headers: {
@@ -50,7 +50,7 @@ export async function login(username: string, password: string) {
     password: password,
   });
 
-  return await fetch(`http://localhost:1337/users/login`, {
+  return await fetch(`http://localhost:1999/users/login`, {
     method: "POST",
     body: input,
     headers: {

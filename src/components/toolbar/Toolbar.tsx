@@ -10,6 +10,7 @@ import {
 
 export function Toolbar() {
   const [popup, showPopup] = useState(false);
+  const [popupText, setPopupText] = useState("");
   const [shouldFetch, setShouldFetch] = useState(false);
   const [userId, setUserId] = useState("id");
   const [invited, setInvited] = useState("");
@@ -27,38 +28,36 @@ export function Toolbar() {
   };
 
   const createPdf = () => {
-    // updateDoc();
-    // let id: string | null = localStorage.getItem("id");
-    // let title: string | null = localStorage.getItem("title");
-
-    // if (id !== null && title !== null) {
-    //   createPDF(id, title, token);
-    //   // alert(
-    //   //   "Your pdf is now downloading. Your document have been automatically saved."
-    //   // );
-    // }
     let text: string | null = localStorage.getItem("text");
     let title: string | null = localStorage.getItem("title");
 
     if (text !== null && title !== null) {
       createPDF(text, title, token);
+      showPopup(true);
+      setPopupText("Your pdf have been created!");
     }
   };
 
   const inviteUser = () => {
     let id: string | null = localStorage.getItem("id");
+    showPopup(true);
 
+    // if (invited === "") {
+    //   setPopupText("⚠️ You need to fill in an email before pressing invite.");
+    // } else if (id !== null) {
+    //   sendMail(invited, id, token);
+    //   setPopupText("📤 Your email have been sent!");
+    // }
     if (id !== null && invited !== "") {
       sendMail(invited, id, token);
-      alert("The email have been sent!");
+      setPopupText("📤 Your email have been sent!");
     } else {
-      alert("You need to fill in an email before pressing invite.");
+      setPopupText("⚠️ You need to fill in an email before pressing invite.");
     }
   };
 
   const newDoc = () => {
     create(userId, token, codeText);
-    showPopup(!popup);
     setShouldFetch(true);
   };
 
@@ -81,7 +80,7 @@ export function Toolbar() {
     }
   };
 
-  if (userId !== "id") {
+  if (userId !== "id" || localStorage.getItem("test") == "true") {
     return (
       <div className="app">
         <div className="flex flex-row justify-between bg-gray-100 text-gray-900 p-4 shadow">
@@ -99,6 +98,14 @@ export function Toolbar() {
               <p className="text-gray-100">💾 Save document</p>
             </button>
           </div>
+          <div
+            className={
+              popup ? " p-2 rounded shadow z-100 bg-gray-200" : "hidden"
+            }
+            onClick={() => showPopup(false)}
+          >
+            <p>{popupText}</p>
+          </div>
           <div className="flex">
             <input
               className="ml-6 bg-gray-100 border border-gray-300 rounded mr-2 p-1"
@@ -106,6 +113,7 @@ export function Toolbar() {
               placeholder="Email"
               value={invited}
               onChange={(event) => setInvited(event?.target.value)}
+              data-testid="mail"
             />
             <button
               className="rounded-lg p-1 pl-3 pr-3 bg-purple-600 shadow"
@@ -132,6 +140,7 @@ export function Toolbar() {
               <button
                 className="rounded-lg p-1 pl-3 pr-3 bg-purple-600 shadow ml-6"
                 onClick={() => createPdf()}
+                data-testid="pdf"
               >
                 <p className="text-gray-100">Create pdf</p>
               </button>
