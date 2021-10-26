@@ -24,6 +24,6 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: craco test
+      - run: test
 
-      - run: craco build
+      - run: build
