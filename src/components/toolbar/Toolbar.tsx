@@ -51,7 +51,7 @@ export function Toolbar() {
   };
 
   const newDoc = async () => {
-    await create(userId, token, codeText);
+    create(userId, token, codeText);
     setShouldFetch(true);
   };
 
@@ -69,7 +69,7 @@ export function Toolbar() {
     let title2: string | null = localStorage.getItem("title");
 
     if (text !== null && id !== null && title2 !== null) {
-      await update(id, title2, text, userId, token);
+      update(id, title2, text, userId, token);
       setShouldFetch(true);
     }
   };
