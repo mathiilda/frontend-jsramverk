@@ -14,10 +14,10 @@ export function CodeEditor({ forwardedRef }: Props) {
   };
 
   return (
-    <div className="editor shadow">
+    <div className="shadow mt-6 w-4/6">
       <Editor
         height="500px"
-        width="750px"
+        width="100%"
         defaultLanguage="javascript"
         defaultValue="Write your code here"
         onMount={(editor, monaco) => (forwardedRef.current = editor)}

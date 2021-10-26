@@ -11,7 +11,6 @@ export function TextEditor({ forwardedRef, callBack }: Props) {
   const [id, setId] = useState("");
   const [create, setCreate] = useState(true);
 
-  // Save the text in the editor in localStorage.
   const saveToLocalStorage = () => {
     let text = forwardedRef.current;
     if (text) {

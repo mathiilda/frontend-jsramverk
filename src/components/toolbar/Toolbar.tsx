@@ -42,12 +42,6 @@ export function Toolbar() {
     let id: string | null = localStorage.getItem("id");
     showPopup(true);
 
-    // if (invited === "") {
-    //   setPopupText("⚠️ You need to fill in an email before pressing invite.");
-    // } else if (id !== null) {
-    //   sendMail(invited, id, token);
-    //   setPopupText("📤 Your email have been sent!");
-    // }
     if (id !== null && invited !== "") {
       sendMail(invited, id, token);
       setPopupText("📤 Your email have been sent!");
@@ -56,8 +50,8 @@ export function Toolbar() {
     }
   };
 
-  const newDoc = () => {
-    create(userId, token, codeText);
+  const newDoc = async () => {
+    await create(userId, token, codeText);
     setShouldFetch(true);
   };
 
@@ -69,13 +63,13 @@ export function Toolbar() {
     }
   };
 
-  const updateDoc = () => {
+  const updateDoc = async () => {
     let text: string | null = localStorage.getItem("text");
     let id: string | null = localStorage.getItem("id");
     let title2: string | null = localStorage.getItem("title");
 
     if (text !== null && id !== null && title2 !== null) {
-      update(id, title2, text, userId, token);
+      await update(id, title2, text, userId, token);
       setShouldFetch(true);
     }
   };

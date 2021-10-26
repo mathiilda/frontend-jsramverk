@@ -6,7 +6,7 @@ export async function getAll(userId: string, token: string, mode: boolean) {
     docs(userId: $userId, mode: $mode)
   }`;
 
-  return await fetch(`http://localhost:1999/graphql`, {
+  return await fetch(`https://jsramverk-mabw19.azurewebsites.net/graphql`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -37,14 +37,17 @@ export async function getSpecific(id: any, userId: string, token: string) {
     id: id,
   });
 
-  return await fetch(`http://localhost:1999/docs/getSpecific`, {
-    method: "POST",
-    body: input,
-    headers: {
-      "content-type": "application/json",
-      "x-access-token": token,
-    },
-  })
+  return await fetch(
+    `https://jsramverk-mabw19.azurewebsites.net/docs/getSpecific`,
+    {
+      method: "POST",
+      body: input,
+      headers: {
+        "content-type": "application/json",
+        "x-access-token": token,
+      },
+    }
+  )
     .then((data) => data.json())
     .then(function (data) {
       localStorage.setItem("id", data.data._id);
@@ -73,7 +76,7 @@ export async function update(
     userId: userId,
   });
 
-  return await fetch(`http://localhost:1999/docs/update`, {
+  return await fetch(`https://jsramverk-mabw19.azurewebsites.net/docs/update`, {
     method: "PUT",
     body: input,
     headers: {
@@ -94,14 +97,17 @@ export async function invite(id: any, username: string, token: string) {
     username: username,
   });
 
-  return await fetch(`http://localhost:1999/docs/addUser`, {
-    method: "PUT",
-    body: input,
-    headers: {
-      "content-type": "application/json",
-      "x-access-token": token,
-    },
-  })
+  return await fetch(
+    `https://jsramverk-mabw19.azurewebsites.net/docs/addUser`,
+    {
+      method: "PUT",
+      body: input,
+      headers: {
+        "content-type": "application/json",
+        "x-access-token": token,
+      },
+    }
+  )
     .then((data) => data.json())
     .then(function (data) {
       return data.data;
@@ -117,32 +123,14 @@ export async function sendMail(
   documentId: string,
   token: string
 ) {
-  // let input = JSON.stringify({
-  //   recipient: mail,
-  //   documentId: documentId,
-  // });
-
   return await fetch(
-    `http://localhost:1999/mail/send/${mail + "&" + documentId}`,
+    `https://jsramverk-mabw19.azurewebsites.net/mail/send/${
+      mail + "&" + documentId
+    }`,
     {
       method: "GET",
-      // body: input,
-      // headers: {
-      //   "content-type": "application/json",
-      //   "x-access-token": token,
-      // },
     }
   );
-  // .then(function (data) {
-  //   console.log("nu skickar jag");
-
-  //   console.log(data);
-  //   return "";
-  // })
-  // .catch((error) => {
-  //   console.log(error);
-  //   return "";
-  // });
 }
 
 export async function create(userId: string, token: string, mode: boolean) {
@@ -153,7 +141,7 @@ export async function create(userId: string, token: string, mode: boolean) {
     mode: mode,
   });
 
-  return await fetch(`http://localhost:1999/docs/create`, {
+  return await fetch(`https://jsramverk-mabw19.azurewebsites.net/docs/create`, {
     method: "POST",
     body: input,
     headers: {

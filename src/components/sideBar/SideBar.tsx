@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Sidebar.scss";
-// import { Editor } from "@tinymce/tinymce-react";
 import { Login } from "../login/Login";
 import { TextEditor } from "../textEditor/TextEditor";
 import { CodeEditor } from "../codeEditor/CodeEditor";
 import { getAll, getSpecific } from "../../data/documents";
 import socketIOClient from "socket.io-client";
 
-// const ENDPOINT = "https://jsramverk-mabw19.azurewebsites.net/";
-const ENDPOINT = "http://localhost:1337/";
+// const ENDPOINT = "http://localhost:1337/";
+const ENDPOINT = "https://jsramverk-mabw19.azurewebsites.net/";
 const socket = socketIOClient(ENDPOINT);
 
 type Props = {
@@ -52,16 +51,14 @@ export function Sidebar({
     };
 
     getDocuments();
-  }, [shouldFetch, userId, title, editor]);
+  }, [shouldFetch, userId, title, editor, editorRef, editorCodeRef]);
 
   if (shouldFetch === true) {
     setShouldFetch(false);
-  } // KOLLA DENNA
+  }
 
   // Get the document with the matching id and create a new socket for that document.
   const getSpecificDocument = async (id: any) => {
-    console.log(id);
-
     let specificDocument = await getSpecific(id, userId, token);
 
     socket.emit("create", id);
